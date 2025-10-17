@@ -430,22 +430,8 @@ class TokenManager:
         self._stop_event = threading.Event()
         self.build_ui()
 
-    def _prepare_proxy(self, proxy_str):
-        if not proxy_str:
-            return ""
-        if proxy_str.count(':') == 3:
-            try:
-                host, port, username, password = proxy_str.split(':')
-                return f"http://{username}:{password}@{host}:{port}"
-            except:
-                return proxy_str
-        elif proxy_str.count(':') == 1 and not proxy_str.startswith(('http://', 'https://')):
-            try:
-                host, port = proxy_str.split(':')
-                return f"http://{host}:{port}"
-            except:
-                return proxy_str
-        return proxy_str
+ def _prepare_proxy(self, proxy_str):
+    return proxy_str if proxy_str else ""
 
     def safe_after(self, delay_ms, callback, *args):
         if not self._is_running or self._stop_event.is_set():
@@ -1699,4 +1685,5 @@ if __name__ == '__main__':
         try:
             app.on_closing()
         except:
+
             pass
